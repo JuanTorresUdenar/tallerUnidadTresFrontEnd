@@ -1,0 +1,74 @@
+<!-- src/app/lista-mascotas/lista-mascotas.component.html -->
+
+<div class="container">
+    <h3>Lista de Mascotas</h3>
+    <a class="btn btn-primary" [routerLink]="['/mascotas/agregar']">Nueva Mascota</a>
+    <br><br>
+  
+    <!-- Tabla de Mascotas -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Edad</th>
+          <th>Clase de Animal</th>
+          <th>Peso</th>
+          <th>Color</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mascota of mascotas">
+          <td>{{ mascota.id }}</td>
+          <td>{{ mascota.nombre }}</td>
+          <td>{{ mascota.edad }}</td>
+          <td>{{ mascota.claseAnimal }}</td>
+          <td>{{ mascota.peso }}</td>
+          <td>{{ mascota.color }}</td>
+          <td>
+            <a class="btn btn-info" [routerLink]="['/mascotas/editar', mascota.id]">Editar</a>
+            <button class="btn btn-danger" (click)="borrarMascota(mascota.id)">Eliminar</button>
+            <button class="btn btn-success" (click)="solicitarMascota(mascota.id)">Solicitar Mascota</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <br><br>
+  
+    <!-- Tabla para Mostrar las Solicitudes -->
+    <h3>Lista de Solicitudes</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID de Solicitud</th>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Dirección</th>
+          <th>ID Mascota</th>
+          <th>Nombre de la Mascota</th>
+          <th>Acciones</th> <!-- Nueva columna para acciones -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let solicitud of solicitudes">
+          <td>{{ solicitud.idSolicitud }}</td>
+          <td>{{ solicitud.persona?.cedula }}</td> <!-- Operador seguro para evitar errores -->
+          <td>{{ solicitud.persona?.nombre }}</td>
+          <td>{{ solicitud.persona?.apellido }}</td>
+          <td>{{ solicitud.persona?.direccion }}</td>
+          <td>{{ solicitud.idMascota }}</td>
+          <td>{{ solicitud.mascota?.nombre }}</td>
+          <td>
+            <!-- Botón Editar Solicitud -->
+            <button class="btn btn-info" (click)="editarSolicitud(solicitud.idSolicitud)">Editar Solicitud (ID: {{ solicitud.idSolicitud }})</button>
+  
+            <!-- Botón Eliminar Solicitud -->
+            <button class="btn btn-danger" (click)="eliminarSolicitud(solicitud.idSolicitud)">Eliminar Solicitud</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

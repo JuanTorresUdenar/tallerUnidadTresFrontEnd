@@ -1,0 +1,30 @@
+<!-- src/app/editar-mascotas/editar-mascotas.component.html -->
+
+<form (ngSubmit)="onSubmit()" #mascotaForm="ngForm">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" class="form-control" required [(ngModel)]="mascota.nombre" name="nombre">
+    </div>
+  
+    <div class="form-group">
+      <label for="edad">Edad</label>
+      <input type="number" id="edad" class="form-control" required [(ngModel)]="mascota.edad" name="edad">
+    </div>
+  
+    <div class="form-group">
+      <label for="claseAnimal">Clase de Animal</label>
+      <input type="text" id="claseAnimal" class="form-control" required [(ngModel)]="mascota.claseAnimal" name="claseAnimal">
+    </div>
+  
+    <div class="form-group">
+      <label for="peso">Peso</label>
+      <input type="text" id="peso" class="form-control" required [(ngModel)]="mascota.peso" name="peso">
+    </div>
+  
+    <div class="form-group">
+      <label for="color">Color</label>
+      <input type="text" id="color" class="form-control" required [(ngModel)]="mascota.color" name="color">
+    </div>
+  
+    <button type="submit" class="btn btn-primary" [disabled]="!mascotaForm.form.valid">Enviar</button>
+  </form>
