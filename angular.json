@@ -35,7 +35,14 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              "src/favicon.ico"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -100,7 +107,14 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              // Añadir esta línea para incluir `src/assets` también durante las pruebas
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.css"
@@ -115,3 +129,4 @@
     "analytics": false
   }
 }
+

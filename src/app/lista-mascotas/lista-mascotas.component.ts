@@ -5,7 +5,7 @@ import { MascotaModel } from '../shared/mascota.model';
 import { SolicitudModel } from '../shared/solicitud.model';
 import { MascotaService } from '../shared/mascota.service';
 import { SolicitudService } from '../shared/solicitud.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-lista-mascotas',
@@ -15,23 +15,37 @@ import { Router } from '@angular/router';
 export class ListaMascotasComponent implements OnInit {
   mascotas: MascotaModel[] = []; // Array para almacenar las mascotas
   solicitudes: SolicitudModel[] = []; // Array para almacenar las solicitudes
+  mostrarMascotas: boolean = true; // Variable para controlar qué lista mostrar
+  mostrarBienvenida: boolean = false; // Variable para mostrar la vista de bienvenida
 
   constructor(
     private mascotaService: MascotaService,
     private solicitudService: SolicitudService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.obtenerMascotas();   // Obtener la lista de mascotas
-    this.obtenerSolicitudes(); // Obtener la lista de solicitudes
+  ngOnInit(): void {    
+    // Suscribirse a los cambios de la ruta para determinar si se muestra bienvenida o lista de datos
+    this.route.url.subscribe(() => {
+      if (this.router.url === '/') {
+        this.mostrarBienvenida = true; // Mostrar mensaje de bienvenida en la ruta principal
+      } else {
+        this.mostrarBienvenida = false; // No mostrar bienvenida en otras rutas
+        this.mostrarMascotas = this.router.url.includes('mascotas'); // Mostrar mascotas o solicitudes según la ruta
+        if (this.mostrarMascotas) {
+          this.obtenerMascotas();
+        } else {
+          this.obtenerSolicitudes();
+        }
+      }
+    });
   }
 
   // Método para obtener todas las mascotas desde el servicio
   obtenerMascotas(): void {
     this.mascotaService.obtenerMascotas().subscribe({
       next: (data) => {
-        console.log('Mascotas obtenidas:', data);
         this.mascotas = data;
       },
       error: (err) => {
@@ -44,12 +58,6 @@ export class ListaMascotasComponent implements OnInit {
   obtenerSolicitudes(): void {
     this.solicitudService.obtenerSolicitudes().subscribe({
       next: (data) => {
-        console.log('Solicitudes obtenidas:', data); // Verificar estructura completa de datos
-        data.forEach((solicitud) => {
-          console.log('Solicitud ID:', solicitud.idSolicitud);
-          console.log('Persona:', solicitud.persona);
-          console.log('Mascota:', solicitud.mascota);
-        });
         this.solicitudes = data;
       },
       error: (err) => {
@@ -78,8 +86,8 @@ export class ListaMascotasComponent implements OnInit {
     this.router.navigate(['/solicitudes/crear', idMascota]); // Redirigir al formulario de solicitud
   }
 
+  // Método para editar una solicitud
   editarSolicitud(idSolicitud: string): void {
-    console.log(`Redirigiendo para editar la solicitud con ID: ${idSolicitud}`);
     this.router.navigate([`/solicitudes/editar/${idSolicitud}`]);
   }
 

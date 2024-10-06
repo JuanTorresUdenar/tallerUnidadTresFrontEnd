@@ -1,0 +1,44 @@
+/* src/app/lista-mascotas/lista-mascotas.component.css */
+/* Ajustar la altura de las tarjetas */
+.card {
+    height: 400px; /* Ajusta la altura total de la tarjeta */
+    margin-bottom: 20px; /* Espacio entre las tarjetas */
+  }
+  
+/* Ajustar el tamaño de la imagen */
+.card-img-top {
+  height: 270px; /* Ajusta la altura de la imagen */
+  object-fit: cover; /* Mantiene la proporción de la imagen y la recorta si es necesario */
+}
+  
+/* Reducir el tamaño de la información dentro de la tarjeta */
+.card-body {
+  padding: 12px; /* Reduce el relleno (padding) interno de la tarjeta */
+  font-size: 16px; /* Reduce el tamaño de fuente del contenido */
+  background: linear-gradient(135deg, rgb(173, 145, 137), rgb(255, 236, 255)); /* Degradado de rosa a azul */
+  margin: 0;
+  padding: 0;
+    
+}
+  
+/* Ajustar los márgenes y el tamaño de los textos */
+.card-body p, .card-body h5 {
+  margin: 5px 0; /* Reduce los márgenes entre los elementos */
+}
+  
+/* Ajustar la altura del contenedor del pie de la tarjeta */
+.card-footer {
+  background-color: #230000; /* Color de fondo gris claro */
+  border-top: 1px solid #bd0000; /* Línea separadora */
+  padding: px; /* Reduce el relleno del pie de la tarjeta */
+}  
+  
+.container {
+  background-color: rgb(244, 208, 199);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+  
+  
+  

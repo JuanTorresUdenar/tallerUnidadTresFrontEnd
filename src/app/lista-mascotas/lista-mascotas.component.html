@@ -1,74 +1,80 @@
 <!-- src/app/lista-mascotas/lista-mascotas.component.html -->
 
-<div class="container">
-    <h3>Lista de Mascotas</h3>
-    <a class="btn btn-primary" [routerLink]="['/mascotas/agregar']">Nueva Mascota</a>
-    <br><br>
-  
-    <!-- Tabla de Mascotas -->
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Edad</th>
-          <th>Clase de Animal</th>
-          <th>Peso</th>
-          <th>Color</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let mascota of mascotas">
-          <td>{{ mascota.id }}</td>
-          <td>{{ mascota.nombre }}</td>
-          <td>{{ mascota.edad }}</td>
-          <td>{{ mascota.claseAnimal }}</td>
-          <td>{{ mascota.peso }}</td>
-          <td>{{ mascota.color }}</td>
-          <td>
-            <a class="btn btn-info" [routerLink]="['/mascotas/editar', mascota.id]">Editar</a>
-            <button class="btn btn-danger" (click)="borrarMascota(mascota.id)">Eliminar</button>
+<div class="container mt-4">
+  <!-- Mensaje de Bienvenida -->
+  <div *ngIf="mostrarBienvenida" class="text-center">
+    <h1>Bienvenido a CiberColas: Adopta con Amor</h1>
+    <p class="lead">Aquí podrás gestionar mascotas y solicitudes para darles un nuevo hogar a estos adorables compañeros.</p>
+  </div>
+
+  <!-- Tabla de Mascotas -->
+  <div *ngIf="!mostrarBienvenida && mostrarMascotas">
+    <h2>Gestión de Mascotas</h2>
+    <a class="btn btn-primary mb-3" [routerLink]="['/mascotas/agregar']">Nueva Mascota</a> <!-- Botón para agregar nueva mascota -->
+
+    <!-- Contenedor de tarjetas de mascotas -->
+    <div class="row">
+      <div class="col-sm-4 mb-4" *ngFor="let mascota of mascotas">
+        <div class="card h-100">
+          <img [src]="'assets/imagenes/' + mascota.nombre.toLowerCase() + '.png'" class="card-img-top" alt="Imagen de {{mascota.nombre}}">
+          <div class="card-body">
+            <!-- Contenedor con dos columnas para la información de la mascota -->
+            <div class="row">
+              <!-- Primera columna: ID, Nombre y Edad -->
+              <div class="col-6">
+                <h5 class="card-title">ID: {{ mascota.id }}</h5>
+                <p class="card-title">Nombre: {{ mascota.nombre }}</p>
+                <p class="card-text">Edad: {{ mascota.edad }}</p>
+              </div>
+              <!-- Segunda columna: Clase, Peso y Color -->
+              <div class="col-6">
+                <p class="card-text">Clase: {{ mascota.claseAnimal }}</p>
+                <p class="card-text">Peso: {{ mascota.peso }}</p>
+                <p class="card-text">Color: {{ mascota.color }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+            <a class="btn btn-info me-2" [routerLink]="['/mascotas/editar', mascota.id]">Editar</a>
+            <button class="btn btn-danger me-2" (click)="borrarMascota(mascota.id)">Eliminar</button>
             <button class="btn btn-success" (click)="solicitarMascota(mascota.id)">Solicitar Mascota</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <br><br>
-  
-    <!-- Tabla para Mostrar las Solicitudes -->
-    <h3>Lista de Solicitudes</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Solicitudes -->
+  <div *ngIf="!mostrarBienvenida && !mostrarMascotas">
+    <h2>Lista de Solicitudes</h2>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>ID de Solicitud</th>
+          <th>ID Solicitud</th>
           <th>Cédula</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Dirección</th>
-          <th>ID Mascota</th>
-          <th>Nombre de la Mascota</th>
-          <th>Acciones</th> <!-- Nueva columna para acciones -->
+          <th>ID Mascota</th> <!-- Nueva columna para mostrar ID de la mascota -->
+          <th>Nombre Mascota</th> <!-- Nueva columna para mostrar nombre de la mascota -->
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let solicitud of solicitudes">
           <td>{{ solicitud.idSolicitud }}</td>
-          <td>{{ solicitud.persona?.cedula }}</td> <!-- Operador seguro para evitar errores -->
+          <td>{{ solicitud.persona?.cedula }}</td>
           <td>{{ solicitud.persona?.nombre }}</td>
           <td>{{ solicitud.persona?.apellido }}</td>
           <td>{{ solicitud.persona?.direccion }}</td>
-          <td>{{ solicitud.idMascota }}</td>
-          <td>{{ solicitud.mascota?.nombre }}</td>
+          <td>{{ solicitud.idMascota }}</td> <!-- Muestra el ID de la mascota en la solicitud -->
+          <td>{{ solicitud.mascota?.nombre }}</td> <!-- Muestra el nombre de la mascota relacionada -->
           <td>
-            <!-- Botón Editar Solicitud -->
-            <button class="btn btn-info" (click)="editarSolicitud(solicitud.idSolicitud)">Editar Solicitud (ID: {{ solicitud.idSolicitud }})</button>
-  
-            <!-- Botón Eliminar Solicitud -->
-            <button class="btn btn-danger" (click)="eliminarSolicitud(solicitud.idSolicitud)">Eliminar Solicitud</button>
+            <button class="btn btn-info me-2" (click)="editarSolicitud(solicitud.idSolicitud)">Editar</button>
+            <button class="btn btn-danger" (click)="eliminarSolicitud(solicitud.idSolicitud)">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>

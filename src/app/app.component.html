@@ -1,4 +1,62 @@
-<div class="container">
-  <h3>Bienvenido a CiberColas: Adopta con Amor</h3>
-  <router-outlet />
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" (click)="mostrarImagenFondo()">CiberColas</a> <!-- Modificar para mostrar la imagen de fondo -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/mascotas']" (click)="ocultarImagenFondo()" routerLinkActive="active">Gestión de Mascotas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/solicitudes']" (click)="ocultarImagenFondo()" routerLinkActive="active">Gestión de Solicitudes</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+        <button class="btn btn-light" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- Contenedor para mostrar la imagen de fondo junto con el mensaje de bienvenida, misión y visión -->
+<div *ngIf="mostrarFondo" class="fondo-imagen">
+  <div class="fondo-texto"> <!-- Fondo semitransparente alrededor del texto -->
+    <h1 class="mb-4">Bienvenido a CiberColas: Adopta con Amor</h1>
+    <p class="lead">Aquí podrás gestionar mascotas y solicitudes para darles un nuevo hogar a estos adorables compañeros.</p>
+    <h3 class="mt-5">Nuestra Misión</h3>
+    <p class="text-center w-50 mx-auto">
+      En CiberColas, nuestra misión es conectar mascotas necesitadas con familias amorosas, facilitando el proceso de adopción con eficiencia y responsabilidad. Nos comprometemos a mejorar la vida de los animales y promover la adopción responsable, creando un entorno donde cada mascota encuentre un hogar seguro y feliz.
+    </p>
+    <h3 class="mt-5">Nuestra Visión</h3>
+    <p class="text-center w-50 mx-auto">
+      Ser la plataforma líder en adopciones de mascotas a nivel nacional, reconocida por nuestro impacto positivo en la vida de los animales y las personas. Aspiramos a transformar la adopción de mascotas en un proceso accesible y transparente, fomentando la empatía y el bienestar animal en nuestra comunidad.
+    </p>
+  </div>
 </div>
+
+<!-- Contenedor Principal para el Contenido -->
+<div class="container mt-4" *ngIf="!mostrarFondo">
+  <router-outlet></router-outlet> <!-- Este componente carga la vista correspondiente según la ruta -->
+</div>
+
+
+
+
+
+
+
+
+
+
+

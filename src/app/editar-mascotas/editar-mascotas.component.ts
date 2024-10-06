@@ -12,15 +12,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EditarMascotasComponent implements OnInit {
   idMascota: string = '';
+  isEditMode: boolean = false; // Nueva variable para saber si es modo edición o creación
+
   // Inicializar el objeto con todas las propiedades requeridas
   mascota: MascotaModel = new MascotaModel('', '', '', '', '', '');
 
   constructor(private mascotaService: MascotaService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
+    // Obtener el ID de la mascota de la ruta (si existe) para determinar si es modo de edición
     this.idMascota = this.route.snapshot.params['idMascota'];
+
     if (this.idMascota) {
+      this.isEditMode = true; // Modo de edición
       this.obtenerMascota();
+    } else {
+      this.isEditMode = false; // Modo de creación
+      this.mascota = new MascotaModel('', '', '', '', '', ''); // Limpiar el objeto mascota para agregar una nueva
     }
   }
 
@@ -36,37 +44,29 @@ export class EditarMascotasComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Datos enviados al backend:', this.mascota); // Verificar qué datos se están enviando
-    if (
-      this.mascota.nombre &&
-      this.mascota.edad &&
-      this.mascota.claseAnimal &&
-      this.mascota.peso &&
-      this.mascota.color
-    ) {
-      if (this.idMascota) {
-        this.mascotaService.actualizarMascota(this.mascota).subscribe({
-          next: () => {
-            console.log('Mascota actualizada exitosamente.');
-            this.router.navigate(['/mascotas']);
-          },
-          error: (err) => {
-            console.error(`Error al actualizar la mascota: ${err}`);
-          },
-        });
-      } else {
-        this.mascotaService.agregarMascota(this.mascota).subscribe({
-          next: () => {
-            console.log('Mascota agregada exitosamente.');
-            this.router.navigate(['/mascotas']);
-          },
-          error: (err) => {
-            console.error(`Error al agregar la mascota: ${err}`);
-          },
-        });
-      }
+    if (this.isEditMode) {
+      // Si es modo de edición, actualizar la mascota
+      this.mascotaService.actualizarMascota(this.mascota).subscribe({
+        next: () => {
+          console.log('Mascota actualizada exitosamente.');
+          this.router.navigate(['/mascotas']);
+        },
+        error: (err) => {
+          console.error(`Error al actualizar la mascota: ${err}`);
+        },
+      });
     } else {
-      alert('Por favor, completa todos los campos antes de enviar.');
+      // Si es modo de creación, agregar la nueva mascota
+      this.mascotaService.agregarMascota(this.mascota).subscribe({
+        next: () => {
+          console.log('Mascota agregada exitosamente.');
+          this.router.navigate(['/mascotas']);
+        },
+        error: (err) => {
+          console.error(`Error al agregar la mascota: ${err}`);
+        },
+      });
     }
   }
 }
+
